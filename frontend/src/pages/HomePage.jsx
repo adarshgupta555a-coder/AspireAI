@@ -13,7 +13,7 @@ const HomePage = () => {
         const data = await res.json();
         setUsers(data);
     }
-  return (
+  return ( 
     <div>
       {
         users !== null ?(
