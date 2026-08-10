@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react'
 
+interface User {
+    name: string;
+    username: string;
+    age: number;
+    address: string;
+}
+
 const HomePage = () => {
-    const [users , setUsers] = useState(null);
+    const [users , setUsers] = useState<User | null>(null);
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
     useEffect(()=> {
@@ -21,7 +28,7 @@ const HomePage = () => {
             <h2 className='text-center text-3xl'>usersname: {users?.username}</h2>
             <p className='text-center text-2xl'>age: {users?.age}</p>
             </>
-        ) :<h1 className='text-center text-4xl'>Not Found Data</h1>
+        ) :<h1 className='text-center text-4xl text-red-500'>Not Found Data</h1>
       }
     </div>
   )
