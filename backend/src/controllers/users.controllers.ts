@@ -22,7 +22,16 @@ const userData = (req: Request, res: Response) => {
     }
 }
 
+const userPosted = async (req: Request, res: Response) => {
+   try {
+    res.send(req.body)
+   } catch (error) {
+    // console.log(error)
+   }
+}
+
 
 export {
-    userData
+    userData,
+    userPosted
 }
