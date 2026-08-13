@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
-
-const uri = "mongodb://127.0.0.1:27017/aspireAI";
+import {config} from "./config.js"
 
 const dbConnection = async () => {
     try {
-        await mongoose.connect(uri);
+        await mongoose.connect(config.Mongodb_uri);
         console.log("mongodb is connected")
     } catch (error) {
         console.log(error)
