@@ -1,6 +1,8 @@
 import type { Request, Response } from "express";
 import userModel from "../models/users.models.js";
 import bcrypt from "bcrypt"; 
+import jwt from "jsonwebtoken";
+import {config} from "../config/config.js";
 
 interface User {
     name: string;
@@ -58,16 +60,46 @@ const Register = async (req: Request, res: Response) => {
 }
 
 
-const login = async () => {
+const Login = async (req:Request, res: Response) => {
     try {
+        const {email, password} = req.body;
+
+        const usercheck = await userModel.findOne({email: email});
+
+        if (!usercheck) {
+            return res.status(401).json({
+                message: "Unauthorized users"
+            })
+        }
+
+        const PassCheck = await bcrypt.compare(password, usercheck.password)
+        if (!PassCheck) {
+            return res.status(401).json({
+                message: "Unauthorized user"
+            })
+        }
+
+        const Token = jwt.sign({user: usercheck}, config.Jwt_Secret);
+
+        res.cookie("token", Token);
+
+        res.status(200).json({
+            message: "Loginned Successfully"
+        })
+
+
         
     } catch (error) {
         console.log(error)
+         res.status(200).json({
+            message: error.message
+        })
     }
 }
 
 
 export {
     userData,
-    Register
+    Register,
+    Login
 }
